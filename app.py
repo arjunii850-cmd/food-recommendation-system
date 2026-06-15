@@ -23,7 +23,7 @@ st.set_page_config(
 # =========================
 # LOAD & PREPARE DATA
 # =========================
-@st.cache_data
+@st.cache_data(show_spinner=False)
 def load_and_prepare():
     # --- Primary datasets ---
     df_nutrition = pd.read_csv('Indian_Food_Nutrition_Processed.csv')
@@ -48,7 +48,7 @@ def load_and_prepare():
     df_meta['Dish Name'] = df_meta['Dish Name'].str.strip().str.title()
     for col in ['prep_time', 'cook_time']:
         df_meta[col] = pd.to_numeric(df_meta[col], errors='coerce')
-    df_meta.dropna(subset=['prep_time', 'cook_time'], inplace=True)
+    df_meta = df_meta.dropna(subset=['prep_time', 'cook_time'])
 
     # --- Merge nutrition + metadata ---
     df = pd.merge(df_nutrition, df_meta, on='Dish Name', how='left')
@@ -58,7 +58,7 @@ def load_and_prepare():
     df['flavor_profile'] = df['flavor_profile'].fillna('unknown')
     df['prep_time']      = df['prep_time'].fillna(0)
     df['cook_time']      = df['cook_time'].fillna(0)
-    df.fillna(0, inplace=True)
+    df = df.fillna(0)
 
     # --- Feature Engineering ---
     def minmax(s):
@@ -67,7 +67,7 @@ def load_and_prepare():
 
     df['Protein Density'] = df['Protein (g)'] / df['Calories (kcal)'].replace(0, np.nan)
     df['Fiber Density']   = df['Fibre (g)']   / df['Calories (kcal)'].replace(0, np.nan)
-    df.fillna(0, inplace=True)
+    df = df.fillna(0)
 
     df['Health Score'] = (
         0.30 * minmax(df['Protein (g)']) +
