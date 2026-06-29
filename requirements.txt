@@ -2,4 +2,4 @@ streamlit
 pandas
 numpy
 scikit-learn
-supabse
+supabase
