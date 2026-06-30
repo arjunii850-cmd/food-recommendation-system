@@ -690,7 +690,7 @@ st.divider()
 # SIDEBAR
 # =========================
 st.sidebar.header("👤 Your Health Profile")
-saved = st.session_state.get("saved_profile", {})
+saved = st.session_state.get("saved_profile", {})  st.write("Saved Profile:", saved) st.stop()  st.write("Saved Profile:", saved) st.stop()  st.write("Saved Profile:", saved) st.stop()
 
 age = st.sidebar.number_input(
     "Age",
