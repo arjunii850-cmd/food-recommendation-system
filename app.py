@@ -691,13 +691,13 @@ st.divider()
 # =========================
 st.sidebar.header("👤 Your Health Profile")
 saved     = st.session_state.get('saved_profile', {})
-age       = st.sidebar.number_input("Age",        min_value=10,   max_value=100,   value=int(saved.get('age', 21)))
+age       = st.sidebar.number_input("Age",        min_value=10,   max_value=100,   value=int(saved.get('age') or 21))
 gender    = st.sidebar.selectbox("Gender",        ["Male","Female"],
                                   index=["Male","Female"].index(saved.get('gender','Male')))
 weight    = st.sidebar.number_input("Weight (kg)", min_value=20.0, max_value=200.0,
-                                     value=float(saved.get('weight', 72.0)), step=0.5)
+                                     value=float(saved.get('weight') or 72.0), step=0.5)
 height    = st.sidebar.number_input("Height (cm)", min_value=100.0,max_value=250.0,
-                                     value=float(saved.get('height', 175.0)), step=0.5)
+                                     value=float(saved.get('height') or 175.0), step=0.5)
 activity  = st.sidebar.selectbox("Activity Level", ["Sedentary","Moderate","Active"],
                                   index=["Sedentary","Moderate","Active"].index(saved.get('activity','Moderate')))
 goal      = st.sidebar.selectbox("Your Goal",      ["Weight Loss","Muscle Gain","Maintenance"],
