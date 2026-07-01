@@ -758,7 +758,6 @@ disease = st.sidebar.selectbox("Health Condition", disease_options,
                                 index=disease_options.index(disease))
 
 top_n = st.sidebar.slider("Recommendations", min_value=5, max_value=20, value=10)
-top_n     = st.sidebar.slider("Recommendations", min_value=5, max_value=20, value=10)
 
 if st.sidebar.button("💾 Save Profile", use_container_width=True):
     profile = {'age':age,'gender':gender,'weight':weight,'height':height,
