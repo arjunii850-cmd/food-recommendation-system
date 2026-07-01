@@ -690,96 +690,74 @@ st.divider()
 # SIDEBAR
 # =========================
 st.sidebar.header("👤 Your Health Profile")
-saved = st.session_state.get("saved_profile", {})  st.write("Saved Profile:", saved) st.stop()  st.write("Saved Profile:", saved) st.stop()  st.write("Saved Profile:", saved) st.stop()
+saved = st.session_state.get('saved_profile', {})
+
+# Safe value extraction — handles None from Supabase
+def safe_int(val, default):
+    try:
+        return int(val) if val is not None else default
+    except:
+        return default
+
+def safe_float(val, default):
+    try:
+        return float(val) if val is not None else default
+    except:
+        return default
 
 age = st.sidebar.number_input(
-    "Age",
-    min_value=10,
-    max_value=100,
-    value=int(saved.get("age", 21))
+    "Age", min_value=10, max_value=100,
+    value=safe_int(saved.get('age'), 21)
 )
 
 gender_options = ["Male", "Female"]
-gender = saved.get("gender", "Male")
+gender = saved.get('gender', 'Male')
 if gender not in gender_options:
     gender = "Male"
-
-gender = st.sidebar.selectbox(
-    "Gender",
-    gender_options,
-    index=gender_options.index(gender)
-)
+gender = st.sidebar.selectbox("Gender", gender_options,
+                               index=gender_options.index(gender))
 
 weight = st.sidebar.number_input(
-    "Weight (kg)",
-    min_value=20.0,
-    max_value=200.0,
-    value=float(saved.get("weight", 72.0)),
-    step=0.5,
+    "Weight (kg)", min_value=20.0, max_value=200.0,
+    value=safe_float(saved.get('weight'), 72.0), step=0.5
 )
 
 height = st.sidebar.number_input(
-    "Height (cm)",
-    min_value=100.0,
-    max_value=250.0,
-    value=float(saved.get("height", 175.0)),
-    step=0.5,
+    "Height (cm)", min_value=100.0, max_value=250.0,
+    value=safe_float(saved.get('height'), 175.0), step=0.5
 )
 
 activity_options = ["Sedentary", "Moderate", "Active"]
-activity = saved.get("activity", "Moderate")
+activity = saved.get('activity', 'Moderate')
 if activity not in activity_options:
     activity = "Moderate"
-
-activity = st.sidebar.selectbox(
-    "Activity Level",
-    activity_options,
-    index=activity_options.index(activity)
-)
+activity = st.sidebar.selectbox("Activity Level", activity_options,
+                                 index=activity_options.index(activity))
 
 goal_options = ["Weight Loss", "Muscle Gain", "Maintenance"]
-goal = saved.get("goal", "Weight Loss")
+goal = saved.get('goal', 'Weight Loss')
 if goal not in goal_options:
     goal = "Weight Loss"
-
-goal = st.sidebar.selectbox(
-    "Your Goal",
-    goal_options,
-    index=goal_options.index(goal)
-)
+goal = st.sidebar.selectbox("Your Goal", goal_options,
+                             index=goal_options.index(goal))
 
 diet_options = ["Both", "Vegetarian", "Non-Vegetarian"]
-diet_pref = saved.get("diet_pref", "Both")
+diet_pref = saved.get('diet_pref', 'Both')
 if diet_pref not in diet_options:
     diet_pref = "Both"
+diet_pref = st.sidebar.selectbox("Diet Preference", diet_options,
+                                  index=diet_options.index(diet_pref))
 
-diet_pref = st.sidebar.selectbox(
-    "Diet Preference",
-    diet_options,
-    index=diet_options.index(diet_pref)
-)
-
-disease_options = [
-    "None",
-    "Diabetes",
-    "Hypertension",
-    "Obesity",
-    "High Cholesterol",
-    "Anaemia",
-    "PCOD/PCOS",
-    "Osteoporosis",
-    "Kidney Disease",
-]
-
-disease = saved.get("disease", "None")
+disease_options = ["None", "Diabetes", "Hypertension", "Obesity",
+                   "High Cholesterol", "Anaemia", "PCOD/PCOS",
+                   "Osteoporosis", "Kidney Disease"]
+disease = saved.get('disease', 'None')
 if disease not in disease_options:
     disease = "None"
+disease = st.sidebar.selectbox("Health Condition", disease_options,
+                                index=disease_options.index(disease))
 
-disease = st.sidebar.selectbox(
-    "Health Condition",
-    disease_options,
-    index=disease_options.index(disease)
-)
+top_n = st.sidebar.slider("Recommendations", min_value=5, max_value=20, value=10)
 top_n     = st.sidebar.slider("Recommendations", min_value=5, max_value=20, value=10)
 
 if st.sidebar.button("💾 Save Profile", use_container_width=True):
